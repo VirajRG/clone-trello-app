@@ -1,7 +1,9 @@
 import React from 'react';
 import { Row, Col } from 'antd';
+import { Draggable, Droppable } from 'react-drag-and-drop';
 
 import Topbar from '../Topbar';
+import Card from '../Card'
 import { db } from '../../App';
 import './index.css';
 
@@ -31,13 +33,18 @@ class Home extends React.Component {
       this.setState({ cardTitle: '', addNew: false })
     }
   }
+  onDrop(data) {
+    console.log(data)
+    // => banana 
+  }
   render() {
     return (
       <div>
         <Topbar />
         <div className="card-wrapper">
-          {this.props.cards && this.props.cards.map((obj, index) => <div key={index} className="card">{obj.title}</div>)}
-          <div className="card add-card">
+          {this.props.cards && this.props.cards.map((obj, index) => <Card key={index} card={obj}/>)}
+          
+          <div className="card add-card draggable">
             <input onChange={this.handleChange} value={this.state.cardTitle} onKeyDown={this.handleKeyDown} name="cardTitle" style={{ display: this.state.addNew ? 'block' : 'none' }} />
             <span onClick={this.toggleAddNewCard} style={{ display: this.state.addNew ? 'none' : 'block' }}>+</span>
           </div>
