@@ -1,0 +1,14 @@
+.card-wrapper {
+  display: flex;
+  overflow-x: auto;
+}
+.card-wrapper .card {
+  border: 1px solid #000;
+  border-radius: 5px;
+  min-width: 300px;
+  margin: 20px 30px;
+  padding: 10px;
+}
+.card-wrapper .add-card {
+  border: 1px dashed #666;
+}

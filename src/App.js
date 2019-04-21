@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Router, Route } from 'react-router-dom';
-import fs from 'fs';
 import Dexie from 'dexie';
 // import history from './history'
 import Home from './components/Home/index'
@@ -8,16 +7,13 @@ import Home from './components/Home/index'
 import './App.css';
 
 export const db = new Dexie('TrelloDB');
-db.version(1).stores({ todos: '++id, title, status' });
-var text = fs.readFileSync("./mytext.txt");
-var textByLine = text.split("\n")
-console.log(textByLine)
+db.version(1).stores({ todos: '++id, title, status, card', cards: '++id, title, cardItems' });
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todos: [], currTodo: ''
+      todos: [], currTodo: '', cards: []
     }
   }
   componentDidMount() {
@@ -25,6 +21,11 @@ class App extends Component {
       .toArray()
       .then((todos) => {
         this.setState({ todos });
+      });
+    db.table('cards')
+      .toArray()
+      .then((cards) => {
+        this.setState({ cards });
       });
   }
   handleChange = (e) => {
@@ -53,11 +54,15 @@ class App extends Component {
         this.setState({ todos: newList });
       });
   }
+  handleAddCard = (card, id) => {
+        const newList = [...this.state.cards, Object.assign({},card , { id })];
+        this.setState({ cards: newList });
+  }
   render() {
     return (
       <div className="App">
-        <Home />
-        {this.state.todos.filter(obj => !obj.status).map((obj, index) =>
+        <Home handleAddCard={this.handleAddCard} cards={this.state.cards}/>
+        {/* {this.state.todos.filter(obj => !obj.status).map((obj, index) =>
           <div onClick={() => this.handleVisibility(obj.id, obj.status)} key={index}>
             {obj.title}
           </div>)}
@@ -67,7 +72,7 @@ class App extends Component {
             {obj.title}
           </div>)}
         <input value={this.state.currTodo} onChange={this.handleChange} name="currTodo" />
-        <button onClick={this.handleSubmit}>submit</button>
+        <button onClick={this.handleSubmit}>submit</button> */}
       </div>
     );
   }

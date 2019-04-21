@@ -7,9 +7,11 @@ class Topbar extends React.Component {
     return (
       <div className="topbar">
         <div>TRELLO</div>
-        <div><Avatar>A</Avatar></div>
+        <br/>
+        <br/>
+        {/* <div><Avatar>A</Avatar></div>
         sdf
-        <Button>button</Button>
+        <Button>button</Button> */}
       </div>
     )
   }
